@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 // take user inputs (scanner)
@@ -61,17 +62,17 @@ public class Main {
             // output
             System.out.println(temps);
 
-            System.out.println("Continue using this program? ('n' to exit, 'y' to continue)");
                 while (true) {
+                    System.out.print("Continue using this program? ('n' to exit, 'y' to continue) ");
                     exitChoice = scanner.nextLine();
-                    scanner.nextLine();
-                    if (exitChoice != "y" || exitChoice != "n") {
-                        System.out.println("Invalid input. Please enter either 'n' to exit or 'y' to continue.");
-                    } else {
+                    System.out.println(exitChoice);
+                    if (Objects.equals(exitChoice, "y") || Objects.equals(exitChoice, "n")) {
                         break;
+                    } else {
+                        System.out.println("Invalid input. Please enter either 'n' to exit or 'y' to continue.");
                     }
                 }
-            } while (exitChoice != "n");
+            } while (!exitChoice.equals("n"));
         } catch (Exception err) {
             System.out.println("Error: " + err);
         }
