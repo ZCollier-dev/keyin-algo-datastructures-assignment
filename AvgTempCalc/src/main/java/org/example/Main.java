@@ -10,11 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         int arrayLength;
-        double averageTemp;
         double[] tempsArray;
-        int higherTempCount;
-        int higherTempPointer;
-        double[] isHigherTemp;
         String exitChoice;
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -59,32 +55,11 @@ public class Main {
                 }
             }
 
-            averageTemp = 0;
-            // calculate average temperature with sum of array values / array length
-            for (int i = 0; i < arrayLength; ++i){
-                averageTemp += tempsArray[i];
-            }
-            averageTemp /= arrayLength;
+            // temperature object - calculates everything on initialize
+            Temperature temps = new Temperature(tempsArray);
 
-            // determine which temps are above average
-            higherTempCount = 0;
-            for (int i = 0; i < arrayLength; ++i){
-                if (tempsArray[i] > averageTemp){
-                    ++higherTempCount;
-                }
-            }
-            isHigherTemp = new double[higherTempCount];
-            higherTempPointer = 0;
-            for (int i = 0; i < arrayLength; ++i){
-                if (tempsArray[i] > averageTemp){
-                    isHigherTemp[higherTempPointer] = tempsArray[i];
-                    ++higherTempPointer;
-                }
-            }
-
-            System.out.println("Temperatures: " + tempsArray.toString());
-            System.out.println("Average temperature: " + averageTemp);
-            System.out.println("Temperatures over average: " + isHigherTemp.toString());
+            // output
+            System.out.println(temps);
 
             System.out.println("Continue using this program? ('n' to exit, 'y' to continue)");
                 while (true) {
