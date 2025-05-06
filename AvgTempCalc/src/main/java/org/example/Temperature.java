@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class Temperature {
     private double[] tempsArray;
     private double tempsAvg = 0;
@@ -40,6 +42,6 @@ public class Temperature {
 
     // returns a formatted string containing all info
     public String toString(){
-        return "Temperatures: " + this.tempsArray.toString() + "\nAverage temperature: " + this.tempsAvg + "\nTemperatures over average: " + this.tempsHigher.toString();
+        return "Temperatures: " + Arrays.toString(this.tempsArray) + "\nAverage temperature: " + this.tempsAvg + "\nTemperatures over average: " + Arrays.toString(this.tempsHigher);
     }
 }
