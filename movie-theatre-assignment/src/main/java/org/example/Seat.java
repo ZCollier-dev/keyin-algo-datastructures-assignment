@@ -12,7 +12,7 @@ public class Seat {
         this.columnNum = columnNum;
     }
 
-    public String getRowCharacter(){
+    public String getRowString(){
         return this.rowString;
     }
     public int getColumnNumber(){
@@ -27,6 +27,6 @@ public class Seat {
     }
 
     public String toString(){
-        return this.rowString + ":" + this.columnNum;
+        return this.rowString + this.columnNum;
     }
 }
