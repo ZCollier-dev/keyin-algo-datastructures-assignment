@@ -19,15 +19,15 @@ public class TheatreSeats {
         int charASCIICodeFirst = 65; //first character, adds +1 to second after 90 then resets
         char[] rowCharArray = new char[2];
         for (int row = 0; row < rows; ++row){
+            rowCharArray[0] = (char) charASCIICodeSecond;
+            rowCharArray[1] = (char) charASCIICodeFirst;
+            ++charASCIICodeFirst;
+            if (charASCIICodeFirst == 91){
+                charASCIICodeFirst = 65;
+                ++charASCIICodeSecond;
+            }
             for (int col = 0; col < columns; ++col){
-                rowCharArray[0] = (char) charASCIICodeSecond;
-                rowCharArray[1] = (char) charASCIICodeFirst;
                 seatingArray[row][col] = new Seat(new String(rowCharArray), col);
-                ++charASCIICodeFirst;
-                if (charASCIICodeFirst == 91){
-                    charASCIICodeFirst = 65;
-                    ++charASCIICodeSecond;
-                }
             }
         }
     }
@@ -38,7 +38,7 @@ public class TheatreSeats {
             return returnString;
         }
 
-        String rowString = seatID.substring(0, 1).toUpperCase();
+        String rowString = seatID.substring(0, 2).toUpperCase();
         String colString = seatID.substring(2);
         int colNum = Integer.parseInt(colString);
         int rowIndex = 0;
@@ -48,7 +48,7 @@ public class TheatreSeats {
                 if (row == seatingArray.length){
                     throw new ArrayIndexOutOfBoundsException("ERR: Row not found.");
                 }
-                if (seatingArray[row][0].getRowString() == rowString){
+                if (seatingArray[row][0].getRowString().equals(rowString)){
                     rowIndex = row;
                     break;
                 }
@@ -65,10 +65,10 @@ public class TheatreSeats {
                 String suggestedSeatID = null;
 
                 do {
-                    if (biggerCol == seatingArray[0].length && smallerCol == 0){
+                    if (biggerCol == seatingArray[0].length - 1 && smallerCol == 0){
                         ++biggerRow;
-                        if (biggerRow > seatingArray.length){
-                            biggerRow = seatingArray.length;
+                        if (biggerRow >= seatingArray.length){
+                            biggerRow = seatingArray.length - 1;
                         }
                         --smallerRow;
                         if (smallerRow < 0){
@@ -78,8 +78,8 @@ public class TheatreSeats {
                         smallerCol = colNum;
                     } else {
                         ++biggerCol;
-                        if (biggerCol > seatingArray[0].length){
-                            biggerCol = seatingArray[0].length;
+                        if (biggerCol >= seatingArray[0].length){
+                            biggerCol = seatingArray[0].length - 1;
                         }
                         --smallerCol;
                         if (smallerCol < 0){
@@ -99,7 +99,7 @@ public class TheatreSeats {
 
                 } while ((biggerRow < seatingArray[0].length && smallerRow > 0 && biggerCol < seatingArray.length && smallerCol > 0) || suggestedSeatID == null);
                 if (suggestedSeatID != null){
-                    returnString = "Seat " + seatID + " is already taken. Maybe " + suggestedSeatID + "would work instead?";
+                    returnString = "Seat " + seatID + " is already taken. Maybe " + suggestedSeatID + " would work instead?";
                 } else {
                     returnString = "The theatre is full.";
                 }
@@ -117,7 +117,7 @@ public class TheatreSeats {
         if (!parseSeat(seatID)){
             return returnString;
         }
-        String rowString = seatID.substring(0, 1).toUpperCase();
+        String rowString = seatID.substring(0, 2).toUpperCase();
         String colString = seatID.substring(2);
         int colNum = Integer.parseInt(colString);
         int rowIndex = 0;
@@ -127,7 +127,7 @@ public class TheatreSeats {
                 if (row == seatingArray.length){
                     throw new ArrayIndexOutOfBoundsException("ERR: Row not found.");
                 }
-                if (seatingArray[row][0].getRowString() == rowString){
+                if (seatingArray[row][0].getRowString().equals(rowString)){
                     rowIndex = row;
                     break;
                 }
@@ -151,7 +151,7 @@ public class TheatreSeats {
         String rowString;
         String colString;
         try {
-            rowString = seatID.substring(0, 1).toUpperCase();
+            rowString = seatID.substring(0, 2).toUpperCase();
             colString = seatID.substring(2);
         } catch (StringIndexOutOfBoundsException e){
             System.out.println("ERR: Input string is under 3 characters long. Please enter your seat in the format XX##...");
