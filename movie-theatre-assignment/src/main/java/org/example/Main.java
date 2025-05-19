@@ -40,6 +40,7 @@ public class Main {
                     choice = scanner.nextInt();
                     switch (choice) {
                         case 0: {
+                            // Exit
                             System.out.println("Exiting program...");
                             break;
                         }
@@ -58,9 +59,12 @@ public class Main {
                 }
             } while (choice != 0);
         } catch (Exception e){
+            System.out.println("ERR: Something went horribly wrong. Please report the following to the devs.");
             e.printStackTrace();
         }
     }
+
+    // SeatingMenu - Sub-menu for the specified seating arrangement.
     public static TheatreSeats SeatingMenu(Scanner scanner, TheatreSeats seating){
         String seatID;
         int choice = -1;
@@ -78,6 +82,7 @@ public class Main {
                 scanner.nextLine();
                 switch (choice) {
                     case 0: {
+                        // Back
                         System.out.println("Returning to main menu...");
                         break;
                     }

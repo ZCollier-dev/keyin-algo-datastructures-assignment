@@ -14,6 +14,8 @@ public class TheatreSeats {
         populateSeats(rows, columns);
     }
 
+    // populateSeats - Populates the 2D Array with the specified number of rows and columns.
+    // Uses the integer ASCII codes for capital letters to populate rows sequentially.
     private void populateSeats(int rows, int columns){
         int charASCIICodeSecond = 65; //second character
         int charASCIICodeFirst = 65; //first character, adds +1 to second after 90 then resets
@@ -32,6 +34,8 @@ public class TheatreSeats {
         }
     }
 
+    // reserveSeat - Reserves a specified seat if the specified seat is free.
+    // Searches the theatre for nearby empty seats if the seat is not free, prioritizing being in the same row.
     public String reserveSeat(String seatID){
         String returnString = "";
         if (!parseSeat(seatID)){
@@ -58,6 +62,7 @@ public class TheatreSeats {
                 seatingArray[rowIndex][colNum].setAvailability(false);
                 returnString = "Seat " + seatID + " has been reserved.";
             } else {
+                // Search for nearby seats, prioritizing being in the same row.
                 int biggerCol = colNum;
                 int smallerCol = colNum;
                 int biggerRow = rowIndex;
@@ -112,6 +117,7 @@ public class TheatreSeats {
         return returnString;
     }
 
+    // cancelSeat - Cancels a specified seat if it is taken.
     public String cancelSeat(String seatID){
         String returnString = "";
         if (!parseSeat(seatID)){
@@ -147,6 +153,7 @@ public class TheatreSeats {
         return returnString;
     }
 
+    // parseSeat - A method to ensure the seat ID specified is valid.
     private boolean parseSeat(String seatID){
         String rowString;
         String colString;
@@ -172,6 +179,7 @@ public class TheatreSeats {
         return true;
     }
 
+    // Returns a seating chart.
     public String toString(){
         char seatAvailable;
         String seatingChart = "Seating Chart - O = Available, X = Unavailable\n-----------------------------\n";
