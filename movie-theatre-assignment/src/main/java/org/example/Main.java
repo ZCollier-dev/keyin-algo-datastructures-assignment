@@ -59,6 +59,7 @@ public class Main {
                 }
             } while (choice != 0);
         } catch (Exception e){
+            System.out.println("ERR: Something went horribly wrong. Please report the following to the devs.");
             e.printStackTrace();
         }
     }
