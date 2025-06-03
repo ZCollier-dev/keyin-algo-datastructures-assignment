@@ -1,4 +1,4 @@
-package LinkedList;
+package org.example;
 
 public class SingleLinkedList {
     public Node head;

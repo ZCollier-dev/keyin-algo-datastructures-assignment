@@ -1,4 +1,4 @@
-package LinkedList;
+package org.example;
 
 public class SingleLinkedListTest {
     public Node head;
@@ -77,25 +77,44 @@ public class SingleLinkedListTest {
         return false;
     }
 
-    /*
-Deletion Scenarios to Handle
-
-Invalid position:
-If the position is out of bounds (negative or greater than the size of the list), handle it gracefully (e.g., print an error or throw an exception).
-
-Delete at the beginning:
-If position == 0, update the head to the next node.
-
-Delete at the end:
-If position == size - 1, remove the last node.
-
-Delete from the middle:
-For any valid index in between, unlink the node from the list by updating the previous node’s next pointer.
-*/
-
     //Delete Method
     public void delete(int position){
-
+        if (position > size || position < 0){
+            System.out.println("Node is out of bounds.");
+        } else if (position == 0){
+            if (head.next != null){
+                head = head.next;
+            } else {
+                head = null; // if head is the sole item, it becomes null
+            }
+            size--;
+        } else if (position == size - 1){
+            Node tempNode = head;
+            for (int i = 0; i < size - 1; i++) {
+                if (i == size - 2){
+                    tempNode.next = null;
+                    tail = tempNode;
+                    size--;
+                    return;
+                }
+                tempNode = tempNode.next;
+            }
+        } else {
+            Node tempNode = head;
+            Node prevNode = null;
+            Node nextNode;
+            for (int i = 0; i < position; i++) {
+                if (i == position - 1){
+                    prevNode = tempNode;
+                    break;
+                }
+                tempNode = tempNode.next;
+            }
+            tempNode = tempNode.next;
+            nextNode = tempNode.next;
+            prevNode.next = nextNode;
+            size--;
+        }
     }
 
 }
