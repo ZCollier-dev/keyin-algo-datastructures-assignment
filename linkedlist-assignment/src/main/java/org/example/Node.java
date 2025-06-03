@@ -1,4 +1,4 @@
-package LinkedList;
+package org.example;
 
 public class Node {
     public int value;
