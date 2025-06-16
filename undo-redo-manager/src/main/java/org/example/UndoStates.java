@@ -1,18 +1,17 @@
 package org.example;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class UndoStates<E> {
-    private LinkedList<E> undoStates;
+    private LinkedList<E> undoStates = new LinkedList<E>();
+    private ListIterator<E> iterator = this.undoStates.listIterator();
     private int maxLength;
-    private int currentPosition = 0;
 
     public UndoStates(){
-        this.undoStates = new LinkedList<E>();
         this.maxLength = 10;
     }
     public UndoStates(int maxLength){
-        this.undoStates = new LinkedList<E>();
         this.maxLength = maxLength;
     }
 
@@ -22,59 +21,69 @@ public class UndoStates<E> {
     private int getMaxLength(){
         return this.maxLength;
     }
-    private int getCurrentPosition(){
-        return this.currentPosition;
-    }
 
     private void setMaxLength(int maxLength){
         this.maxLength = maxLength;
     }
 
     public E retrieveItemAtCurrentPosition(){
-        if (this.undoStates.size() == 0){
+        if (this.undoStates.isEmpty()){
             return null;
         }
-        return this.undoStates.get(this.currentPosition - 1);
+        return this.undoStates.get(this.iterator.previousIndex());
     }
 
     // Adds an item to the Undo List, and deletes the oldest item if the Undo List's size is above the maximum.
     // If the current position is not at the front of the list, overwrites everything after it prior to adding.
     public void addToUndoList(E element){
-        int size = this.undoStates.size();
-
-        if (this.currentPosition < size){
-            for (int i = size; i > this.currentPosition; i--) {
-                this.undoStates.removeLast();
+        if (this.iterator.hasNext()){
+            while (this.iterator.hasNext()){
+                this.iterator.next();
+                this.iterator.remove();
             }
-            this.undoStates.addLast(element);
-        } else {
-            this.undoStates.addLast(element);
 
-            if (size > this.maxLength){
-                this.undoStates.removeFirst();
-            } else {
-                ++this.currentPosition;
+            this.iterator.add(element);
+        } else {
+            this.iterator.add(element);
+
+            if (this.undoStates.size() > this.maxLength){
+                while (this.iterator.hasPrevious()){
+                    this.iterator.previous();
+                }
+                this.iterator.remove();
+                while (this.iterator.hasNext()){
+                    this.iterator.next();
+                }
             }
         }
     }
 
     // Moves the pointer backwards through the undo list - Undo Functionality
     public E moveBackThroughList(){
-        --this.currentPosition;
-        if (this.currentPosition < 0){
+        try {
+            if (this.iterator.hasPrevious()){
+                return this.iterator.previous();
+            }
+
             System.out.println("Can't undo any further!");
-            this.currentPosition = 0;
+            return this.undoStates.get(this.iterator.nextIndex());
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("ERR: Nothing in undo list.");
+            return null;
         }
-        return retrieveItemAtCurrentPosition();
     }
     // Moves the pointer forwards through the undo list - Redo functionality
     public E moveForwardThroughList(){
-        int size = this.undoStates.size();
-        ++this.currentPosition;
-        if (this.currentPosition > size){
+        try {
+            if (this.iterator.hasNext()){
+                return this.iterator.next();
+            }
+
             System.out.println("Can't redo any further!");
-            this.currentPosition = size;
+            return this.undoStates.get(this.iterator.previousIndex());
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("ERR: Nothing in undo list.");
+            return null;
         }
-        return retrieveItemAtCurrentPosition();
     }
 }
