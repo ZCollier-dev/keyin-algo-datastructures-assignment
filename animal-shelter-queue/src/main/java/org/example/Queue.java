@@ -13,6 +13,14 @@ public class Queue {
         System.out.println("Queue created. Size: " + size);
     }
 
+    public String toString(){
+        String returnString = "";
+        for (int i = 0; i < petQueue.length; i++) {
+            returnString += petQueue[i] + " | ";
+        }
+        return returnString;
+    }
+
     public boolean isFull(){
         return numberOfItems == petQueue.length;
     }
@@ -29,6 +37,7 @@ public class Queue {
             backOfQueue = 0;
             petQueue[backOfQueue] = new Pet(petName, petType);
             numberOfItems++;
+            System.out.println(petName + " added to queue.");
         } else {
             backOfQueue++;
             if (backOfQueue == petQueue.length){
@@ -36,6 +45,7 @@ public class Queue {
             }
             petQueue[backOfQueue] = new Pet(petName, petType);
             numberOfItems++;
+            System.out.println(petName + " added to queue.");
         }
     }
 
@@ -78,7 +88,6 @@ public class Queue {
                 if (petQueue[pointer].getPetType().equalsIgnoreCase(species)){
                     selectedPet = petQueue[pointer];
                     petQueue[pointer] = null;
-                    numberOfItems--;
                     if (pointer == backOfQueue){
                         backOfQueue--;
                         if (backOfQueue == -1){
@@ -103,7 +112,8 @@ public class Queue {
             if (selectedPet == null){
                 System.out.println("Species not found.");
             } else {
-                System.out.println(species + "found and dequeued: " + selectedPet);
+                numberOfItems--;
+                System.out.println(species + " found and dequeued: " + selectedPet);
             }
         }
     }
@@ -113,27 +123,24 @@ public class Queue {
         if (isEmpty()){
             System.out.println("Queue is empty.");
         } else {
-            int queuePointer = frontOfQueue;
-            int newPointer = 0;
-            Pet[] newQueue = new Pet[numberOfItems];
-
-            // Copies all non-null queue items to a new array.
-            for (int i = 0; i < petQueue.length; i++) {
-                if (petQueue[queuePointer] != null){
-                    newQueue[newPointer] = petQueue[queuePointer];
-                    ++newPointer;
+            Pet[] newQueue = new Pet[petQueue.length];
+            int queuePos = frontOfQueue;
+            for (int i = 0; i < numberOfItems - 1; i++) {
+                while (petQueue[queuePos] == null){
+                    ++queuePos;
+                    if (queuePos == petQueue.length){
+                        queuePos = 0;
+                    }
                 }
-                ++queuePointer;
-                if (queuePointer == petQueue.length){
-                    queuePointer = 0;
+                newQueue[i] = petQueue[queuePos];
+                ++queuePos;
+                if (queuePos == petQueue.length){
+                    queuePos = 0;
                 }
             }
-
+            petQueue = newQueue;
             frontOfQueue = 0;
             backOfQueue = numberOfItems - 1;
-
-            // Copies the new queue array to the main queue array, maintaining the order of the queue.
-            System.arraycopy(newQueue, 0, petQueue, 0, numberOfItems);
         }
     }
 }
